@@ -8,30 +8,34 @@ describe("POST /sleep", () => {
   it("should create a new sleep record", async () => {
     const res = await request(app)
       .post("/sleep")
-      .send({ userId: "user123", hours: 8 });
+      .send({ userId: "user123", hours: 8, timestamp: "2024-05-19T06:30:45Z" });
 
     // Assertions for response status code and body properties
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("id");
     expect(res.body.userId).toEqual("user123");
     expect(res.body.hours).toEqual(8);
-    expect(res.body).toHaveProperty("timestamp");
+    expect(res.body.timestamp).toEqual("2024-05-19T06:30:45Z");
   });
 
   // Test case
-  it("should return 400 if userId or hours is missing", async () => {
+  it("should return 400 if userId or hours or timestamp is missing", async () => {
     const res = await request(app).post("/sleep").send({ userId: "user123" });
 
     // Assertions for response status code and error message
     expect(res.statusCode).toEqual(400);
-    expect(res.body.error).toEqual("userId and hours are required");
+    expect(res.body.error).toEqual("userId, hours and timestamp are required ");
   });
 
   // Test case
   it("should return 400 if hours is not a number", async () => {
     const res = await request(app)
       .post("/sleep")
-      .send({ userId: "user123", hours: "nine" });
+      .send({
+        userId: "user123",
+        hours: "nine",
+        timestamp: "2024-05-19T06:30:45Z",
+      });
 
     // Assertions for response status code and error message
     expect(res.statusCode).toEqual(400);

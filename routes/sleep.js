@@ -32,16 +32,17 @@ const saveRecord = () => {
 
 // POST endpoint to add a new sleep record
 router.post("/", (req, res) => {
-  const { userId, hours } = req.body;
-  if (!userId || !hours) {
-    return res.status(400).json({ error: "userId and hours are required" });
+  const { userId, hours, timestamp } = req.body;
+  if (!userId || !hours || !timestamp) {
+    return res
+      .status(400)
+      .json({ error: "userId, hours and timestamp are required " });
   }
 
   if (typeof hours !== "number") {
     return res.status(400).json({ error: "hours must be a number" });
   }
 
-  const timestamp = new Date().toISOString(); // Get current timestamp
   const newRecord = { id: currentId++, userId, hours, timestamp };
 
   // Attempt to add new record to records array
@@ -65,7 +66,7 @@ router.get("/:userId", (req, res) => {
       return res.status(404).json({ error: "UserId not found" });
     }
 
-    userData.sort((a, b) => a.timestamp - b.timestamp); // Sort user data by timestamp
+    userData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)); // Sort user data by timestamp
 
     res.json(userData);
   } catch (err) {
