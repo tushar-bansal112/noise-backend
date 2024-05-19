@@ -40,3 +40,16 @@ npm test
 ```
 
 ## API Endpoints
+
+### POST `/sleep`
+- **Description:** Allows users to submit their sleep duration along with a timestamp.
+- **Request Body:** JSON object containing `userId`, `hours`, and `timestamp`.
+- **Response:** The created sleep record.
+
+### GET `/sleep/:userId`
+- **Description:** Retrieve all sleep records for a given user, sorted by date.
+- **Response:** Array of sleep records.
+
+### DELETE `/sleep/:recordId`
+- **Description:** Delete a specific sleep record by its ID.
+- **Response:** Deleted the record success message.
